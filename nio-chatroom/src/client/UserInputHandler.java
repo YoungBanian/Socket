@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 public class UserInputHandler implements Runnable {
 
+
     private ChatClient client;
 
     public UserInputHandler(ChatClient client) {
@@ -15,17 +16,19 @@ public class UserInputHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // 读取用户输入信息
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String input = null;
-            while ((input = reader.readLine()) != null) {
+            while (true) {
+                String input = reader.readLine();
                 // 向服务器发送消息
                 client.send(input);
-                // 查看用户是否退出
+                // 检测是否用户主动退出
                 if (client.isQuit(input)) break;
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }
